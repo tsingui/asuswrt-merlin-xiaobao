@@ -521,6 +521,9 @@ init_mtd_partitions(hndsflash_t *sfl_info, struct mtd_info *mtd, size_t size)
 	}
 
 	if (knldev != SOC_KNLDEV_NANDFLASH) {
+                /* jannson */
+                printk("shuijing setup partition %s#%d\n", __FUNCTION__, __LINE__);
+
 		vmlz_off = 0;
 		rfs_off = lookup_flash_rootfs_offset(mtd, &vmlz_off, size, &trx_size);
 
@@ -555,7 +558,7 @@ init_mtd_partitions(hndsflash_t *sfl_info, struct mtd_info *mtd, size_t size)
 			bcm947xx_flash_parts[nparts].size -= (mtd->erasesize *4);
 #endif
 		}
-#else
+#else  /* NO_FAILSAFE_UPGRADE */
 
 		bcm947xx_flash_parts[nparts].size = mtd->size - vmlz_off;
 		
@@ -564,6 +567,7 @@ init_mtd_partitions(hndsflash_t *sfl_info, struct mtd_info *mtd, size_t size)
 		bcm947xx_flash_parts[nparts].size -= ROUNDUP(0x1000, mtd->erasesize);
 #endif
 		/* Reserve for NVRAM */
+                /* Reserve for jffs2 -- by jannson */
 		bcm947xx_flash_parts[nparts].size -= ROUNDUP(nvram_space, mtd->erasesize);
 
 #ifdef BCMCONFMTD

@@ -525,6 +525,7 @@ flash_init(void)
 #endif	/* CFG_NFLASH */
 #if CFG_SFLASH
 	if (bootdev == SOC_BOOTDEV_SFLASH) {
+printf("Test for sflash hear %s#%d", __FUNCTION__, __LINE__);
 		sfl_info = hndsflash_init(sih);
 		if (!sfl_info)
 			return;
@@ -676,6 +677,8 @@ flash_init(void)
 #endif
 
 		/* Because CFE can only boot from the beginning of a partition */
+                /* jannson */
+                printf("begin setup shuijing partition %s#%d\n", __FUNCTION__, __LINE__);
 		j = 0;
 		fprobe.flash_parts[j].fp_size = bootsz;
 		fprobe.flash_parts[j++].fp_name = "boot";
