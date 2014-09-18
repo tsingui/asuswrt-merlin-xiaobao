@@ -25,6 +25,8 @@
 
 #ifdef RTCONFIG_BRCM_NAND_JFFS2
 #define JFFS2_PARTITION	"brcmnand"
+/* jannson 18/09/14 13:39:42 */
+#error hear, none NAND flash in shuijing
 #else
 #define JFFS2_PARTITION	"jffs2"
 #endif
