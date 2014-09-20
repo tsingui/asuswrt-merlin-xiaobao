@@ -242,6 +242,9 @@ obj-y += etc
 #obj-y += utils
 obj-y += ntpclient
 
+# add pdnsd
+obj-y += pdnsd
+
 ifneq ($(RTCONFIG_4M_SFP),y)
 obj-y += rstats
 obj-y += cstats
@@ -1452,6 +1455,30 @@ dnsmasq:
 dnsmasq-install:
 	install -D dnsmasq/src/dnsmasq $(INSTALLDIR)/dnsmasq/usr/sbin/dnsmasq
 	$(STRIP) $(INSTALLDIR)/dnsmasq/usr/sbin/dnsmasq
+
+pdnsd: pdnsd/Makefile
+	@$(SEP)
+	@$(MAKE) -C pdnsd \
+	CFLAGS="-Os -ffunction-sections -fdata-sections $(EXTRACFLAGS)" \
+	LDFLAGS="-ffunction-sections -fdata-sections -Wl,--gc-sections"
+
+pdnsd/Makefile: pdnsd/configure
+	$(MAKE) pdnsd-configure
+
+pdnsd/configure:
+	( cd pdnsd ; ./autogen.sh )
+
+pdnsd-configure:
+	( cd pdnsd ; \
+		$(CONFIGURE) \
+		--prefix=/usr \
+		--bindir=/usr/sbin \
+		--libdir=/usr/lib \
+	)
+
+pdnsd-install:
+	install -D pdnsd/src/pdnsd $(INSTALLDIR)/pdnsd/usr/sbin/pdnsd
+	$(STRIP) $(INSTALLDIR)/pdnsd/usr/sbin/pdnsd
 
 iptables:
 	@$(SEP)
