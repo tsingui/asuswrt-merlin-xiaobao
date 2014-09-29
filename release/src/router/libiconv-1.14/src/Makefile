@@ -7,7 +7,7 @@ srcdir = .
 top_srcdir = ..
 
 # Directories used by "make install":
-prefix = /home/mars/asus-git/asuswrt/release/src-rt/router/libiconv-1.14/out
+prefix = /projects/asuswrt-merlin/release/src-rt-6.x.4708/router/libiconv-1.14/out
 local_prefix = /usr/local
 exec_prefix = ${prefix}
 bindir = ${exec_prefix}/bin
@@ -17,9 +17,9 @@ datadir = ${datarootdir}
 localedir = ${datarootdir}/locale
 
 # Programs used by "make":
-CC = mipsel-uclibc-gcc
-CFLAGS = -DBCMWPA2 -DLINUX26 -DCONFIG_BCMWL5 -DDEBUG_NOISY -DDEBUG_RCTEST -pipe -DBCMWPA2 -funit-at-a-time -Wno-pointer-sign -mtune=mips32 -mips32 -DLINUX_KERNEL_VERSION=132630 -D__CONFIG_WPS__
-CPPFLAGS = -I/home/mars/asus-git/asuswrt/release/src-rt/router/libiconv-1.14/out/include
+CC = arm-brcm-linux-uclibcgnueabi-gcc
+CFLAGS = -DBCMWPA2 -DBCMQOS -DBCM_DCS -DEXT_ACS -DD11AC_IOTYPES -DPHYMON -DPROXYARP -DTRAFFIC_MGMT -DTRAFFIC_MGMT_RSSI_POLICY -DLINUX26 -DCONFIG_BCMWL5 -DDEBUG_NOISY -DDEBUG_RCTEST -pipe -DBCMWPA2 -DBCMARM -fno-strict-aliasing -marm -DRTCONFIG_NVRAM_64K -DLINUX_KERNEL_VERSION=132644 -DRTAC56U -O2 -D__CONFIG_EMF__
+CPPFLAGS = 
 LDFLAGS = 
 INCLUDES = -I. -I$(srcdir) -I.. -I../include -I$(srcdir)/../include -I../srclib -I$(srcdir)/../srclib
 LIBTOOL = /bin/sh $(top_builddir)/libtool
@@ -38,9 +38,9 @@ INSTALL_DATA = ${INSTALL} -m 644
 mkinstalldirs = $(SHELL) ../build-aux/mkinstalldirs
 
 # Programs used by "make install-strip":
-STRIP = mipsel-uclibc-strip -R .note -R .comment
+STRIP = arm-brcm-linux-uclibcgnueabi-strip
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-install_sh = ${SHELL} /home/mars/asus-git/asuswrt/release/src/router/libiconv-1.14/build-aux/install-sh
+install_sh = ${SHELL} /projects/asuswrt-merlin/release/src/router/libiconv-1.14/build-aux/install-sh
 
 #### End of system configuration section. ####
 
@@ -55,7 +55,7 @@ top_builddir = ..
 EXEEXT = 
 
 # Needed by RELOCATABLE_LDFLAGS.
-host = mipsel-unknown-linux-gnu
+host = arm-unknown-linux-gnu
 
 OBJECTS_RES_yes = iconv.res
 OBJECTS_RES_no =
