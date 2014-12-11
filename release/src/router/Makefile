@@ -557,6 +557,7 @@ obj-y += radpd
 endif
 
 obj-$(RTCONFIG_GEOIP) += GeoIP-1.6.2
+obj-y += libwebsockets
 
 obj-clean := $(foreach obj, $(obj-y) $(obj-n) $(obj-), $(obj)-clean)
 obj-install := $(foreach obj,$(obj-y),$(obj)-install)
@@ -704,6 +705,7 @@ gen_target:
 	@$(SEP)
 
 	install -d $(TARGETDIR)
+	cp -rf shadowsocks/etc/* $(TARGETDIR)/rom/etc/
 
 
 # kernel modules
@@ -3627,6 +3629,26 @@ GeoIP-1.6.2-install: GeoIP-1.6.2
 GeoIP-1.6.2-clean:
 	-@[ ! -f GeoIP-1.6.2/Makefile ] || $(MAKE) -C GeoIP-1.6.2 distclean
 	@rm -f GeoIP-1.6.2/stamp-h1
+
+pdnsd-install:
+	mkdir -p $(INSTALLDIR)/pdnsd-1.2.9a/usr/bin && install -D pdnsd-1.2.9a/src/pdnsd $(INSTALLDIR)/pdnsd-1.2.9a/usr/bin
+
+libwebsockets/stamp-h1:
+	cd libwebsockets && mkdir -p build && cd build && cmake28 .. -DCMAKE_TOOLCHAIN_FILE=../cross-arm-linux-gnueabihf.cmake
+	touch $@
+libwebsockets: libwebsockets/stamp-h1
+	$(MAKE) -C $@/build
+
+# TODO for shadowsocks compiling and pdnsd compiling
+libwebsockets-install:libwebsockets
+#	mkdir -p $(INSTALLDIR)/pdnsd-1.2.9a/usr/bin && install -D pdnsd-1.2.9a/src/pdnsd $(INSTALLDIR)/pdnsd-1.2.9a/usr/bin
+
+	mkdir -p $(INSTALLDIR)/libwebsockets/usr/bin && install -D libwebsockets/build/bin/web-tunnel $(INSTALLDIR)/libwebsockets/usr/bin/
+	install -D shadowsocks/bin/ss-redir $(INSTALLDIR)/libwebsockets/usr/bin/
+	install -D shadowsocks/bin/pdnsd $(INSTALLDIR)/libwebsockets/usr/bin/
+	install -D shadowsocks/bin/chinadns $(INSTALLDIR)/libwebsockets/usr/bin/
+	install -D shadowsocks/bin/ss-setup.sh $(INSTALLDIR)/libwebsockets/usr/bin/
+#	cp -rf shadowsocks/etc $(INSTALLDIR)/libwebsockets/
 
 #
 # Generic rules

@@ -4776,6 +4776,8 @@ int start_firewall(int wanunit, int lanunit)
 	setup_ftp_conntrack(nvram_get_int("vts_ftpport"));
 	setup_pt_conntrack();
 
+	//system("ss-setup.sh");
+
 #if defined(RTCONFIG_APP_PREINSTALLED) || defined(RTCONFIG_APP_NETINSTALLED)
 	if(strcmp(nvram_safe_get("apps_dev"), "") != 0)
 		run_app_script(NULL, "firewall-start");
